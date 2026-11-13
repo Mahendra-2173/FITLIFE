@@ -1,0 +1,22 @@
+{
+  "name": "fitlife-ai",
+  "version": "1.0.0",
+  "description": "FitLife AI - Intelligent Personal Fitness Trainer & Daily Health Management Platform",
+  "private": true,
+  "scripts": {
+    "start": "node start.js",
+    "test": "node backend/test-suite.js",
+    "start:backend": "node backend/src/index.js",
+    "start:frontend": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend"
+  },
+  "keywords": [
+    "fitness",
+    "ai",
+    "react",
+    "groq",
+    "express",
+    "node",
+    "health"
+  ]
+}
