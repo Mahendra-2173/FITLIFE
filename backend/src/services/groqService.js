@@ -89,11 +89,19 @@ function extractJSON(text) {
     throw new Error('Empty AI response received from model');
   }
 
-  // 1. Try markdown code block extraction
-  const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  let cleaned = codeBlockMatch ? codeBlockMatch[1].trim() : text.trim();
+  // 1. Strip reasoning blocks from reasoning models: <think>...</think> or <reasoning>...</reasoning>
+  let cleaned = text
+    .replace(/<think>[\s\S]*?<\/think>/gi, '')
+    .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, '')
+    .trim();
 
-  // 2. Try to isolate outermost root JSON object or array
+  // 2. Try markdown code block extraction
+  const codeBlockMatch = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (codeBlockMatch) {
+    cleaned = codeBlockMatch[1].trim();
+  }
+
+  // 3. Try to isolate outermost root JSON object or array
   const firstBrace = cleaned.indexOf('{');
   const firstBracket = cleaned.indexOf('[');
   let startIdx = -1;
@@ -114,25 +122,29 @@ function extractJSON(text) {
     }
   }
 
-  // 3. Attempt direct JSON parse
+  // 4. Attempt direct JSON parse
   try {
     return JSON.parse(cleaned);
   } catch (err1) {
-    // 4. Clean common JSON syntax mistakes from LLMs:
+    // 5. Clean common JSON syntax mistakes from LLMs safely:
     let repaired = cleaned
       // Remove trailing commas before closing braces/brackets
       .replace(/,\s*([}\]])/g, '$1')
       // Remove JavaScript comments
-      .replace(/\/\/.*$/gm, '')
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      // Replace single quotes around keys or simple strings
-      .replace(/([{,]\s*)([a-zA-Z0-9_]+?)\s*:/g, '$1"$2":');
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
 
     try {
       return JSON.parse(repaired);
     } catch (err2) {
-      console.warn('[extractJSON] Failed standard & repaired JSON parse. Raw preview:', cleaned.substring(0, 180));
-      throw new Error(`Malformed JSON output from AI: ${err2.message}`);
+      // 6. Try repairing unquoted keys ({ key: "value" })
+      let withKeys = repaired.replace(/([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/g, '$1"$2":');
+      try {
+        return JSON.parse(withKeys);
+      } catch (err3) {
+        console.warn('[extractJSON] Failed standard & repaired JSON parse. Raw preview:', cleaned.substring(0, 180));
+        throw new Error(`Malformed JSON output from AI: ${err1.message}`);
+      }
     }
   }
 }
@@ -156,18 +168,40 @@ async function callGroq(systemPrompt, userPrompt, maxTokens = 4096, timeoutMs = 
 
     try {
       console.log(`[groqService] Requesting inference from model: ${modelToUse}`);
-      const response = await client.chat.completions.create(
-        {
-          model: modelToUse,
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: userPrompt },
-          ],
-          max_tokens: maxTokens,
-          temperature: 0.6,
-        },
-        { signal: controller.signal }
-      );
+      let response;
+      try {
+        response = await client.chat.completions.create(
+          {
+            model: modelToUse,
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt },
+            ],
+            max_tokens: maxTokens,
+            temperature: 0.6,
+            response_format: { type: 'json_object' },
+          },
+          { signal: controller.signal }
+        );
+      } catch (rfErr) {
+        // Fallback if model does not support response_format
+        if (rfErr.message?.includes('response_format') || rfErr.status === 400) {
+          response = await client.chat.completions.create(
+            {
+              model: modelToUse,
+              messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: userPrompt },
+              ],
+              max_tokens: maxTokens,
+              temperature: 0.6,
+            },
+            { signal: controller.signal }
+          );
+        } else {
+          throw rfErr;
+        }
+      }
 
       clearTimeout(timeoutId);
       const content = response.choices[0]?.message?.content || '';
@@ -342,7 +376,7 @@ RULES:
 - Keep total cooking time within ${maxCookingTime} minutes.`;
 
   try {
-    const rawResponse = await callGroq(systemPrompt, userPrompt, 3500);
+    const rawResponse = await callGroq(systemPrompt, userPrompt, 4096);
     const parsed = extractJSON(rawResponse);
 
     // Validate with Zod
@@ -392,7 +426,7 @@ User's Modification Request: "${refinementPrompt}"
 Return the complete updated recipe JSON with modified ingredients, steps, timings, and nutrition estimates to reflect the requested adjustments.`;
 
   try {
-    const rawResponse = await callGroq(systemPrompt, userPrompt, 3500);
+    const rawResponse = await callGroq(systemPrompt, userPrompt, 4096);
     const parsed = extractJSON(rawResponse);
     const validation = validateRecipe(parsed);
 
