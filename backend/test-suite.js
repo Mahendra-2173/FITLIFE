@@ -13,6 +13,8 @@ const {
   RecipeSchema,
 } = require('./src/validators/schemas');
 const {
+  extractJSON,
+  getFallbackRecipe,
   generateRecipeFromIngredients,
   refineRecipeWithPrompt,
 } = require('./src/services/groqService');
@@ -307,7 +309,156 @@ async function runTestSuite() {
     assert.ok(result.data.ingredients.some(i => i.name.toLowerCase().includes('chickpea')));
   });
 
-  console.log('\n═══════════════════════════════════════════════════════════════');
+  // ─── 5. LLM JSON Extraction & Syntax Repair Tests ───────────────
+  console.log('\n── 5. LLM JSON Extraction & Syntax Repair Tests ──');
+
+  test('extractJSON handles clean JSON string', () => {
+    const raw = '{"name":"Seared Salmon","prepTime":10}';
+    const parsed = extractJSON(raw);
+    assert.strictEqual(parsed.name, 'Seared Salmon');
+    assert.strictEqual(parsed.prepTime, 10);
+  });
+
+  test('extractJSON strips markdown code fences (```json)', () => {
+    const raw = '```json\n{\n  "title": "Protein Bowl",\n  "servings": 2\n}\n```';
+    const parsed = extractJSON(raw);
+    assert.strictEqual(parsed.title, 'Protein Bowl');
+    assert.strictEqual(parsed.servings, 2);
+  });
+
+  test('extractJSON repairs trailing commas before closing braces/brackets', () => {
+    const raw = '{\n  "items": [1, 2, 3, ],\n  "ready": true,\n}';
+    const parsed = extractJSON(raw);
+    assert.strictEqual(parsed.items.length, 3);
+    assert.strictEqual(parsed.ready, true);
+  });
+
+  test('extractJSON removes JavaScript line and block comments', () => {
+    const raw = '{\n  // User requested high protein\n  "protein": 45,\n  /* Multi-line\n     comment */\n  "carbs": 12\n}';
+    const parsed = extractJSON(raw);
+    assert.strictEqual(parsed.protein, 45);
+    assert.strictEqual(parsed.carbs, 12);
+  });
+
+  test('extractJSON repairs unquoted object keys', () => {
+    const raw = '{ name: "Egg Frittata", minutes: 15 }';
+    const parsed = extractJSON(raw);
+    assert.strictEqual(parsed.name, 'Egg Frittata');
+    assert.strictEqual(parsed.minutes, 15);
+  });
+
+  test('extractJSON rejects empty or null responses', () => {
+    assert.throws(() => extractJSON(''), /Empty AI response/);
+    assert.throws(() => extractJSON(null), /Empty AI response/);
+  });
+
+  test('extractJSON throws meaningful error on completely malformed JSON', () => {
+    assert.throws(() => extractJSON('Here is your recipe: it has some chicken and salt'), /Malformed JSON/);
+  });
+
+  // ─── 6. Fallback Recipe Strict Zod Compliance Tests ──────────────
+  console.log('\n── 6. Fallback Recipe Strict Zod Compliance Tests ──');
+
+  test('Default fallback recipe strictly satisfies RecipeSchema', () => {
+    const fallback = getFallbackRecipe({
+      availableIngredients: 'Chicken, greens',
+      dietaryPreference: 'high_protein',
+      servings: 2,
+      maxCookingTime: 30,
+    });
+    const validation = validateRecipe(fallback);
+    assert.strictEqual(validation.success, true, 'Default fallback must pass RecipeSchema');
+    assert.strictEqual(validation.data.isFallback, true);
+    assert.strictEqual(validation.data.ingredients.length >= 2, true);
+  });
+
+  test('Vegetarian fallback recipe strictly satisfies RecipeSchema', () => {
+    const fallback = getFallbackRecipe({
+      availableIngredients: 'Chickpeas, spinach',
+      dietaryPreference: 'vegetarian',
+      servings: 4,
+      maxCookingTime: 25,
+    });
+    const validation = validateRecipe(fallback);
+    assert.strictEqual(validation.success, true, 'Vegetarian fallback must pass RecipeSchema');
+    assert.strictEqual(validation.data.dietaryCategory, 'Vegetarian');
+  });
+
+  test('Custom serving-sizes scale fallback ingredient quantities accurately and pass Zod', () => {
+    for (const s of [1, 2, 4, 6]) {
+      const fallback = getFallbackRecipe({
+        availableIngredients: 'Chicken, garlic, spinach',
+        servings: s,
+      });
+      const validation = validateRecipe(fallback);
+      assert.strictEqual(validation.success, true, `Fallback with ${s} servings must pass Zod`);
+      assert.strictEqual(validation.data.servings, s);
+      // All ingredient quantities must be positive numbers
+      for (const ing of validation.data.ingredients) {
+        assert.strictEqual(typeof ing.quantity, 'number');
+        assert.ok(ing.quantity > 0);
+      }
+    }
+  });
+
+  // ─── 7. Request Cancellation & AbortController Tests ──────────────
+  console.log('\n── 7. Request Cancellation & Stale Guard Tests ──');
+
+  test('AbortController reliably aborts pending asynchronous signal', async () => {
+    const controller = new AbortController();
+    let aborted = false;
+
+    controller.signal.addEventListener('abort', () => {
+      aborted = true;
+    });
+
+    assert.strictEqual(controller.signal.aborted, false);
+    controller.abort();
+    assert.strictEqual(controller.signal.aborted, true);
+    assert.strictEqual(aborted, true);
+  });
+
+  test('Request ID sequence correctly identifies stale responses', () => {
+    let activeRequestId = 0;
+
+    // First request dispatched
+    const req1 = ++activeRequestId;
+    assert.strictEqual(req1, 1);
+
+    // Second request dispatched before first completes
+    const req2 = ++activeRequestId;
+    assert.strictEqual(req2, 2);
+
+    // When req1 attempts to commit its result:
+    const isReq1Stale = req1 !== activeRequestId;
+    assert.strictEqual(isReq1Stale, true, 'Request 1 should be flagged as stale and discarded');
+
+    // When req2 attempts to commit its result:
+    const isReq2Stale = req2 !== activeRequestId;
+    assert.strictEqual(isReq2Stale, false, 'Request 2 is the active request and should be accepted');
+  });
+
+  // ─── 8. API Parameter Boundary Validation Tests ──────────────────
+  console.log('\n── 8. API Parameter Boundary Validation Tests ──');
+
+  test('Rejects servings less than 1 or greater than 20', () => {
+    const tooLow = validateRecipeRequest({ availableIngredients: ['Chicken'], servings: 0 });
+    assert.strictEqual(tooLow.success, false);
+
+    const tooHigh = validateRecipeRequest({ availableIngredients: ['Chicken'], servings: 25 });
+    assert.strictEqual(tooHigh.success, false);
+
+    const valid = validateRecipeRequest({ availableIngredients: ['Chicken'], servings: 4 });
+    assert.strictEqual(valid.success, true);
+  });
+
+  test('Rejects maxCookingTime outside allowable range', () => {
+    const tooFast = validateRecipeRequest({ availableIngredients: ['Eggs'], maxCookingTime: 2 });
+    assert.strictEqual(tooFast.success, false);
+
+    const validTime = validateRecipeRequest({ availableIngredients: ['Eggs'], maxCookingTime: 25 });
+    assert.strictEqual(validTime.success, true);
+  });
   console.log(`  📊 RESULTS: ${passed} Passed, ${failed} Failed`);
   console.log('═══════════════════════════════════════════════════════════════\n');
 

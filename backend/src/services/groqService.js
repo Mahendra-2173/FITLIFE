@@ -362,9 +362,13 @@ RULES:
     console.warn('[groqService] Using resilient validated fallback recipe due to:', err.message);
     const fallback = getFallbackRecipe(options, err.message);
     const validatedFallback = validateRecipe(fallback);
+    if (!validatedFallback.success) {
+      console.error('[groqService] Fallback recipe schema validation failed:', validatedFallback.error.format());
+      throw new Error(`Fallback validation failed: ${validatedFallback.error.issues.map(i => i.message).join(', ')}`);
+    }
     return {
       success: true,
-      data: validatedFallback.success ? validatedFallback.data : fallback,
+      data: validatedFallback.data,
       isAIGenerated: false,
       isFallback: true,
       fallbackReason: err.message,
@@ -1121,6 +1125,8 @@ function getFallbackSchedule() {
 }
 
 module.exports = {
+  extractJSON,
+  getFallbackRecipe,
   generateRecipeFromIngredients,
   refineRecipeWithPrompt,
   generateWorkoutPlan,

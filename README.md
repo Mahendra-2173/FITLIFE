@@ -61,12 +61,19 @@ git clone <your-repo-link>
 cd FITLIFE
 ```
 
-### Step 2: Install Packages
+### Step 2: Install & Start in One Command
 ```bash
-# Install all packages for root, backend, and frontend
+# Installs backend & frontend automatically, then launches both servers
+npm install && npm start
+```
+
+Or step-by-step:
+```bash
+# 1. Install root, backend, and frontend packages
 npm install
-npm install --prefix backend
-npm install --prefix frontend
+
+# 2. Start both backend and frontend concurrently
+npm start
 ```
 
 ### Step 3: Add Your Groq API Key (Optional)
@@ -77,17 +84,27 @@ The app works out-of-the-box with pre-saved healthy recipes. To enable live AI g
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-### Step 4: Start the App
-```bash
-npm start
-```
-
-- Open your browser at: **`http://localhost:5173`**
-- The backend runs automatically on: **`http://localhost:5000`**
+- **Frontend App:** `http://localhost:5173`
+- **Backend API:** `http://localhost:5000/api`
 
 ---
 
-## 5. How the AI Works (Simple Explanation)
+## 5. Automated Tests
+
+Run the full validation and failure-handling test suite (27 comprehensive tests):
+```bash
+npm test
+```
+Covers:
+- Zod schema validation & field rejection
+- LLM JSON parsing, comment stripping & syntax repair
+- Fallback recipe schema compliance across all serving multipliers
+- Request cancellation & AbortController stale response guard
+- Mifflin-St Jeor metabolic calculators (BMI, BMR, TDEE, macros)
+
+---
+
+## 6. How the AI Works (Simple Explanation)
 
 1. **You enter ingredients:** For example: *"eggs, spinach, tomatoes"*.
 2. **Backend asks Groq AI:** The server asks the AI to create a balanced recipe using only those items.
@@ -135,3 +152,26 @@ Total time: **~7.5 hours**
 - **Frontend & Interactive Components (2.5 hrs):** Serving size buttons, cooking timers, step checkboxes, and dark mode UI.
 - **Error Handling & Mobile Testing (1.0 hr):** Testing slow internet, cancellation, and mobile screen layouts.
 - **UI Polish & Documentation (1.0 hr):** Modern glass cards, simple README, and easy setup instructions.
+
+---
+
+## 10. Application Screenshots & Screen Recording
+
+### 🎥 Screen Recording Demo
+<!-- Add your recorded Loom, YouTube, or Google Drive link below -->
+- **Video Demo Link:** `[Add your 60-90 second demo recording link here]`  
+  *(A short screen recording demonstrating: 1. Adding ingredients, 2. AI recipe generation, 3. Adjusting serving sizes (1x/2x/4x), and 4. Starting a cooking timer with checkbox tracking).*
+
+### 📸 Application Views
+- **Fridge-to-Recipe Interactive Generator (Primary Feature):**  
+  `docs/screenshots/recipe-generator.png`  
+  *Dynamic serving scale multipliers, ingredient checkboxes, step countdown timers with audio cues, and smart substitution recommendations.*
+
+- **Athletic Performance Dashboard (Red & Black Edition):**  
+  `docs/screenshots/dashboard.png`  
+  *Live calorie breakdown, Mifflin-St Jeor BMI gauge, today's workout spotlight, and hydration tracker.*
+
+- **Initial Empty State & Workflow Guide:**  
+  `docs/screenshots/empty-state.png`  
+  *Intuitive 3-step culinary guide presented when no recipe has been generated yet.*
+

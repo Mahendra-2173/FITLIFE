@@ -552,6 +552,18 @@ export default function Nutrition() {
               <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '1rem' }}>
                 Querying Groq LLaMA 3.3 · Validating ingredient units & execution steps with Zod schemas
               </p>
+              <button
+                className="btn btn-secondary btn-sm"
+                style={{ marginTop: '1.25rem', borderColor: 'rgba(239, 68, 68, 0.3)', color: '#f87171' }}
+                onClick={() => {
+                  if (activeAbortController.current) {
+                    activeAbortController.current.abort();
+                  }
+                  setLoading(false);
+                }}
+              >
+                <X size={14} /> Cancel Request
+              </button>
             </div>
           )}
 
@@ -566,23 +578,54 @@ export default function Nutrition() {
           )}
 
           {!currentRecipe && !loading && !error && (
-            <div className="card card-recipe" style={{ textAlign: 'center', padding: '3.5rem 1.5rem', marginBottom: '1.5rem' }}>
+            <div className="card card-recipe" style={{ textAlign: 'center', padding: '3rem 1.5rem', marginBottom: '1.5rem' }}>
               <div style={{
-                width: 64, height: 64, borderRadius: '50%',
-                background: 'rgba(245, 158, 11, 0.12)', border: '1px solid var(--section-recipe)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem'
+                width: 68, height: 68, borderRadius: '50%',
+                background: 'rgba(245, 158, 11, 0.14)', border: '1.5px solid var(--section-recipe)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem',
+                boxShadow: '0 0 24px rgba(245, 158, 11, 0.2)'
               }}>
-                <UtensilsCrossed size={30} color="var(--section-recipe)" />
+                <UtensilsCrossed size={32} color="var(--section-recipe)" />
               </div>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
-                Your Recipe Lab is Ready
+
+              <div className="badge badge-amber" style={{ marginBottom: '0.65rem' }}>
+                INITIAL STATE · NO RECIPE LOADED YET
+              </div>
+
+              <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+                Welcome to your AI Kitchen Laboratory
               </h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', maxWidth: 460, margin: '0 auto 1.5rem' }}>
-                Add the ingredients you currently have in your kitchen above and click <strong>Generate AI Recipe</strong> to produce an interactive step-by-step culinary protocol.
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: 520, margin: '0 auto 1.75rem' }}>
+                List the ingredients currently sitting in your refrigerator, select your dietary goals, and the AI will build a complete, macro-balanced recipe with interactive timers and scalable servings.
               </p>
-              <button className="btn btn-secondary" onClick={loadSamplePantry}>
-                <Sparkles size={15} /> Try with Sample Fridge Staples
-              </button>
+
+              {/* 3-Step Visual Process Guide */}
+              <div className="grid-3" style={{ maxWidth: 760, margin: '0 auto 1.75rem', textAlign: 'left', gap: '0.85rem' }}>
+                <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)', borderRadius: 10, padding: '0.85rem' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--section-recipe)', marginBottom: '0.2rem' }}>STEP 1</div>
+                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-primary)' }}>Enter Ingredients</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>Type pantry items or tap quick staple tags.</div>
+                </div>
+
+                <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)', borderRadius: 10, padding: '0.85rem' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--section-recipe)', marginBottom: '0.2rem' }}>STEP 2</div>
+                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-primary)' }}>Set Constraints</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>Pick diet, servings, max time, and exclusions.</div>
+                </div>
+
+                <div style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid var(--border-color)', borderRadius: 10, padding: '0.85rem' }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 800, color: 'var(--section-recipe)', marginBottom: '0.2rem' }}>STEP 3</div>
+                  <div style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text-primary)' }}>Cook Interactively</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>Scale servings, run step timers, check off steps.</div>
+                </div>
+              </div>
+
+              {/* Quick Action Presets */}
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+                <button className="btn btn-recipe" onClick={loadSamplePantry}>
+                  <Sparkles size={16} /> Autofill Sample Fridge & Start
+                </button>
+              </div>
             </div>
           )}
 
@@ -634,10 +677,10 @@ export default function Nutrition() {
                     </p>
                   </div>
 
-                  {/* Actions: Favorite / Regenerate */}
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  {/* Actions: Favorite / Regenerate / Clear */}
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                     <button
-                      className={`btn btn-sm ${isRecipeFavorite(currentRecipe.id) ? 'btn-primary' : 'btn-secondary'}`}
+                      className={`btn btn-sm ${isRecipeFavorite(currentRecipe.id) ? 'btn-recipe' : 'btn-secondary'}`}
                       onClick={() => saveRecipeToFavorites(currentRecipe)}
                       title="Save to favorites"
                     >
@@ -657,6 +700,20 @@ export default function Nutrition() {
                       title="Regenerate another recipe with these ingredients"
                     >
                       <RefreshCw size={14} /> Regenerate
+                    </button>
+                    <button
+                      className="btn btn-ghost btn-sm"
+                      onClick={() => {
+                        setCurrentRecipe(null);
+                        setCheckedIngredients({});
+                        setCheckedSteps({});
+                        setActiveTimerStep(null);
+                        setTimerRunning(false);
+                      }}
+                      title="Clear recipe and return to empty state"
+                      style={{ color: 'var(--text-muted)' }}
+                    >
+                      <RotateCcw size={14} /> Clear / New
                     </button>
                   </div>
                 </div>
