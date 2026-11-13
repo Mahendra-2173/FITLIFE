@@ -51,8 +51,8 @@ export default function Dashboard() {
     <div className="animate-fade-in" style={{ maxWidth: 1100, margin: '0 auto' }}>
       {/* ─── 1. Welcome Hero Section ───────────────────────────── */}
       <section style={{
-        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(15, 23, 42, 0.95))',
-        border: '1px solid rgba(16, 185, 129, 0.25)',
+        background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.16) 0%, rgba(18, 18, 24, 0.98) 100%)',
+        border: '1px solid rgba(239, 68, 68, 0.35)',
         borderRadius: 'var(--radius-lg)',
         padding: '2rem',
         marginBottom: '1.75rem',
@@ -61,13 +61,13 @@ export default function Dashboard() {
       }}>
         <div style={{
           position: 'absolute', top: -30, right: -30, width: 140, height: 140,
-          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(239, 68, 68, 0.25) 0%, transparent 70%)',
           borderRadius: '50%'
         }} />
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.25rem' }}>
           <div>
-            <div className="badge badge-green" style={{ marginBottom: '0.65rem' }}>
+            <div className="badge badge-red" style={{ marginBottom: '0.65rem' }}>
               <Sparkles size={12} /> {today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </div>
             <h1 style={{ fontSize: '1.85rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.025em', lineHeight: 1.2 }}>
@@ -84,10 +84,10 @@ export default function Dashboard() {
 
           {bodyAnalysis && (
             <div style={{
-              background: 'rgba(0, 0, 0, 0.3)', border: '1px solid var(--border-color)',
+              background: 'rgba(0, 0, 0, 0.45)', border: '1px solid rgba(239, 68, 68, 0.25)',
               borderRadius: 12, padding: '0.75rem 1.25rem', textAlign: 'right', flexShrink: 0
             }}>
-              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'var(--accent-green)', lineHeight: 1 }}>
+              <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#ef4444', lineHeight: 1 }}>
                 {bodyAnalysis.bmi}
               </div>
               <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 0.5, marginTop: 2 }}>
@@ -104,24 +104,24 @@ export default function Dashboard() {
       {/* ─── 2. PRIMARY ASSIGNMENT FEATURE: FRIDGE-TO-RECIPE HERO SPOTLIGHT ─── */}
       <section className="card card-interactive" style={{
         marginBottom: '1.75rem',
-        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.08))',
-        border: '1.5px solid rgba(16, 185, 129, 0.35)',
+        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(18, 18, 24, 0.96) 100%)',
+        border: '1.5px solid rgba(245, 158, 11, 0.35)',
         cursor: 'pointer'
       }} onClick={() => navigate('/nutrition')}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.25rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flex: 1, minWidth: 280 }}>
             <div style={{
               width: 58, height: 58, borderRadius: 16,
-              background: 'var(--gradient-green)',
+              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: 'var(--shadow-green)', flexShrink: 0
+              boxShadow: '0 4px 20px rgba(245, 158, 11, 0.35)', flexShrink: 0
             }}>
-              <UtensilsCrossed size={28} color="#042f1a" strokeWidth={2.5} />
+              <UtensilsCrossed size={28} color="#1a0f00" strokeWidth={2.5} />
             </div>
 
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 2 }}>
-                <span className="badge badge-green" style={{ fontSize: '0.65rem' }}>PRIMARY ASSIGNMENT FEATURE</span>
+                <span className="badge badge-amber" style={{ fontSize: '0.65rem' }}>PRIMARY ASSIGNMENT FEATURE</span>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>AI Culinary Engine</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>
@@ -136,7 +136,7 @@ export default function Dashboard() {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <button className="btn btn-primary" onClick={(e) => { e.stopPropagation(); navigate('/nutrition'); }}>
+            <button className="btn btn-recipe" onClick={(e) => { e.stopPropagation(); navigate('/nutrition'); }}>
               {currentRecipe ? 'Open Recipe Lab' : 'Launch Generator'} <ArrowRight size={16} />
             </button>
           </div>
@@ -178,13 +178,13 @@ export default function Dashboard() {
       {/* ─── 4. TODAY'S TRAINING & HABIT QUICK-LOOK ─────────────── */}
       <div className="grid-2" style={{ marginBottom: '1.75rem' }}>
         {/* Workout Card */}
-        <section className="card" style={{ cursor: 'pointer' }} onClick={() => navigate('/workouts')} aria-label="Today's Workout">
+        <section className="card card-workout" style={{ cursor: 'pointer' }} onClick={() => navigate('/workouts')} aria-label="Today's Workout">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
             <h2 className="section-title" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 0 }}>
-              <Dumbbell size={18} color="var(--accent-green)" /> Today's Workout
+              <Dumbbell size={18} color="#ef4444" /> Today's Workout
             </h2>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span className="badge badge-purple" style={{ fontSize: '0.65rem' }}>
+              <span className="badge badge-red" style={{ fontSize: '0.65rem' }}>
                 Week: {weeklyStats.completedThisWeek}/{weeklyStats.plannedDays} Done
               </span>
               <ChevronRight size={16} color="var(--text-muted)" />
@@ -212,9 +212,9 @@ export default function Dashboard() {
           ) : (
             <>
               <div style={{
-                background: isTodayWorkoutLogged ? 'rgba(16, 185, 129, 0.12)' : 'rgba(16, 185, 129, 0.08)',
+                background: isTodayWorkoutLogged ? 'rgba(239, 68, 68, 0.12)' : 'rgba(239, 68, 68, 0.08)',
                 borderRadius: 10, padding: '0.875rem',
-                border: `1px solid ${isTodayWorkoutLogged ? 'var(--accent-green)' : 'rgba(16, 185, 129, 0.2)'}`,
+                border: `1px solid ${isTodayWorkoutLogged ? 'var(--accent-red)' : 'rgba(239, 68, 68, 0.25)'}`,
                 marginBottom: '0.875rem'
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -222,7 +222,7 @@ export default function Dashboard() {
                     {todayWorkout?.focus}
                   </div>
                   {isTodayWorkoutLogged && (
-                    <span className="badge badge-green" style={{ fontSize: '0.65rem' }}>
+                    <span className="badge badge-red" style={{ fontSize: '0.65rem' }}>
                       ✓ Completed Today
                     </span>
                   )}
@@ -236,7 +236,7 @@ export default function Dashboard() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', marginBottom: '1rem' }}>
                 {todayWorkout?.exercises?.slice(0, 3).map((ex, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent-green)', flexShrink: 0 }} />
+                    <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#ef4444', flexShrink: 0 }} />
                     <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{ex.name}</span> · {ex.sets} sets × {ex.reps} reps
                   </div>
                 ))}

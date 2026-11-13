@@ -295,7 +295,7 @@ export default function Nutrition() {
       {/* Top Header & Mode Switcher */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
         <div>
-          <div className="badge badge-green" style={{ marginBottom: '0.4rem' }}>
+          <div className="badge badge-amber" style={{ marginBottom: '0.4rem' }}>
             <UtensilsCrossed size={12} /> Primary Internship Feature
           </div>
           <h1 className="page-title">Fridge-to-Recipe AI Generator</h1>
@@ -310,13 +310,13 @@ export default function Nutrition() {
           border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', padding: '0.25rem'
         }}>
           <button
-            className={`btn btn-sm ${activeTab === 'fridge' ? 'btn-primary' : 'btn-ghost'}`}
+            className={`btn btn-sm ${activeTab === 'fridge' ? 'btn-recipe' : 'btn-ghost'}`}
             onClick={() => setActiveTab('fridge')}
           >
             <ChefHat size={14} /> Fridge-to-Recipe
           </button>
           <button
-            className={`btn btn-sm ${activeTab === 'schedule' ? 'btn-primary' : 'btn-ghost'}`}
+            className={`btn btn-sm ${activeTab === 'schedule' ? 'btn-recipe' : 'btn-ghost'}`}
             onClick={() => setActiveTab('schedule')}
           >
             <Scale size={14} /> Daily Meal Plan
@@ -329,10 +329,10 @@ export default function Nutrition() {
           {/* ───────────────────────────────────────────────────────── */}
           {/* 1. FRIDGE INGREDIENTS INPUT FORM CARD                     */}
           {/* ───────────────────────────────────────────────────────── */}
-          <section className="card" style={{ marginBottom: '1.75rem', borderColor: 'var(--border-light)' }} aria-label="Fridge Inputs">
+          <section className="card card-recipe" style={{ marginBottom: '1.75rem', borderColor: 'rgba(245, 158, 11, 0.3)' }} aria-label="Fridge Inputs">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <ChefHat size={20} color="var(--accent-green)" />
+                <ChefHat size={20} color="var(--section-recipe)" />
                 <h2 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                   What's in your refrigerator today?
                 </h2>
@@ -342,7 +342,7 @@ export default function Nutrition() {
                 onClick={loadSamplePantry}
                 title="Fill with standard ingredients for quick testing"
               >
-                <Sparkles size={13} color="var(--accent-green)" /> Autofill Sample Fridge
+                <Sparkles size={13} color="var(--section-recipe)" /> Autofill Sample Fridge
               </button>
             </div>
 
@@ -354,15 +354,15 @@ export default function Nutrition() {
               <div style={{
                 display: 'flex', flexWrap: 'wrap', gap: '0.4rem',
                 minHeight: 46, padding: '0.5rem', borderRadius: 'var(--radius-sm)',
-                background: 'rgba(15, 23, 42, 0.6)', border: '1px solid var(--border-color)'
+                background: 'rgba(15, 15, 20, 0.7)', border: '1px solid var(--border-color)'
               }}>
                 {ingredientTags.map((tag) => (
                   <span
                     key={tag}
                     style={{
                       display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-                      background: 'var(--accent-green-light)', color: 'var(--accent-green)',
-                      border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: 'var(--radius-full)',
+                      background: 'rgba(245, 158, 11, 0.12)', color: '#fbbf24',
+                      border: '1px solid rgba(245, 158, 11, 0.35)', borderRadius: 'var(--radius-full)',
                       padding: '0.2rem 0.65rem', fontSize: '0.78rem', fontWeight: 600
                     }}
                   >
@@ -525,7 +525,7 @@ export default function Nutrition() {
             {/* Generate CTA Button */}
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
               <button
-                className="btn btn-primary btn-lg"
+                className="btn btn-recipe btn-lg"
                 onClick={handleGenerateRecipe}
                 disabled={loading}
                 style={{ minWidth: 220 }}
@@ -566,13 +566,13 @@ export default function Nutrition() {
           )}
 
           {!currentRecipe && !loading && !error && (
-            <div className="card" style={{ textAlign: 'center', padding: '3.5rem 1.5rem', marginBottom: '1.5rem' }}>
+            <div className="card card-recipe" style={{ textAlign: 'center', padding: '3.5rem 1.5rem', marginBottom: '1.5rem' }}>
               <div style={{
                 width: 64, height: 64, borderRadius: '50%',
-                background: 'var(--accent-green-light)', border: '1px solid var(--accent-green)',
+                background: 'rgba(245, 158, 11, 0.12)', border: '1px solid var(--section-recipe)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.25rem'
               }}>
-                <UtensilsCrossed size={30} color="var(--accent-green)" />
+                <UtensilsCrossed size={30} color="var(--section-recipe)" />
               </div>
               <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
                 Your Recipe Lab is Ready
@@ -680,8 +680,8 @@ export default function Nutrition() {
 
                   {/* Interactive Dynamic Servings Scaler */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <div style={{ width: 40, height: 40, borderRadius: 10, background: 'var(--accent-green-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Users size={20} color="var(--accent-green)" />
+                    <div style={{ width: 40, height: 40, borderRadius: 10, background: 'var(--accent-orange-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Users size={20} color="var(--section-recipe)" />
                     </div>
                     <div>
                       <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>SERVINGS SCALE</div>
@@ -692,8 +692,8 @@ export default function Nutrition() {
                             onClick={() => setServingScale(srv)}
                             style={{
                               padding: '0.2rem 0.55rem', borderRadius: 6, fontSize: '0.75rem', fontWeight: 700,
-                              background: servingScale === srv ? 'var(--accent-green)' : 'rgba(255,255,255,0.06)',
-                              color: servingScale === srv ? '#042f1a' : 'var(--text-secondary)',
+                              background: servingScale === srv ? 'var(--section-recipe)' : 'rgba(255,255,255,0.06)',
+                              color: servingScale === srv ? '#1a0f00' : 'var(--text-secondary)',
                               border: 'none', cursor: 'pointer', transition: 'all 0.15s'
                             }}
                           >
@@ -751,20 +751,20 @@ export default function Nutrition() {
                             style={{
                               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                               padding: '0.65rem 0.85rem', borderRadius: 8, cursor: 'pointer',
-                              background: isDone ? 'rgba(16, 185, 129, 0.06)' : 'rgba(255, 255, 255, 0.02)',
-                              border: `1px solid ${isDone ? 'rgba(16, 185, 129, 0.3)' : 'var(--border-color)'}`,
+                              background: isDone ? 'rgba(245, 158, 11, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+                              border: `1px solid ${isDone ? 'rgba(245, 158, 11, 0.35)' : 'var(--border-color)'}`,
                               transition: 'all 0.15s'
                             }}
                           >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                               <div style={{
                                 width: 20, height: 20, borderRadius: 5,
-                                border: `1.5px solid ${isDone ? 'var(--accent-green)' : 'var(--text-muted)'}`,
-                                background: isDone ? 'var(--accent-green)' : 'transparent',
+                                border: `1.5px solid ${isDone ? 'var(--section-recipe)' : 'var(--text-muted)'}`,
+                                background: isDone ? 'var(--section-recipe)' : 'transparent',
                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 flexShrink: 0
                               }}>
-                                {isDone && <Check size={13} color="#042f1a" strokeWidth={3} />}
+                                {isDone && <Check size={13} color="#1a0f00" strokeWidth={3} />}
                               </div>
                               <span style={{
                                 fontSize: '0.85rem',
@@ -779,7 +779,7 @@ export default function Nutrition() {
 
                             <span style={{
                               fontWeight: 700, fontSize: '0.85rem',
-                              color: isDone ? 'var(--text-muted)' : 'var(--accent-green)',
+                              color: isDone ? 'var(--text-muted)' : 'var(--section-recipe)',
                               flexShrink: 0
                             }}>
                               {displayQty} {ing.unit}
@@ -868,14 +868,14 @@ export default function Nutrition() {
                       <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                         Cooking Instructions
                       </h3>
-                      <span style={{ fontSize: '0.78rem', fontWeight: 700, color: stepsPercentage === 100 ? 'var(--accent-green)' : 'var(--text-muted)' }}>
+                      <span style={{ fontSize: '0.78rem', fontWeight: 700, color: stepsPercentage === 100 ? 'var(--section-recipe)' : 'var(--text-muted)' }}>
                         {completedStepsCount}/{totalSteps} ({stepsPercentage}%)
                       </span>
                     </div>
 
                     {/* Steps Progress bar */}
                     <div className="progress-bar" style={{ height: 6, marginBottom: '1.25rem' }}>
-                      <div className="progress-fill" style={{ width: `${stepsPercentage}%`, background: 'var(--accent-green)' }} />
+                      <div className="progress-fill" style={{ width: `${stepsPercentage}%`, background: 'var(--gradient-amber)' }} />
                     </div>
 
                     {/* Step Cards with Checkboxes & Embedded Timers */}
@@ -889,8 +889,8 @@ export default function Nutrition() {
                             key={step.stepNumber}
                             style={{
                               padding: '1rem', borderRadius: 10,
-                              background: isDone ? 'rgba(16, 185, 129, 0.04)' : 'rgba(255, 255, 255, 0.02)',
-                              border: `1px solid ${isDone ? 'rgba(16, 185, 129, 0.3)' : 'var(--border-color)'}`,
+                              background: isDone ? 'rgba(245, 158, 11, 0.06)' : 'rgba(255, 255, 255, 0.02)',
+                              border: `1px solid ${isDone ? 'rgba(245, 158, 11, 0.35)' : 'var(--border-color)'}`,
                               transition: 'all 0.15s'
                             }}
                           >
@@ -899,18 +899,18 @@ export default function Nutrition() {
                                 onClick={() => toggleStepCheck(step.stepNumber)}
                                 style={{
                                   width: 24, height: 24, borderRadius: 6,
-                                  border: `1.5px solid ${isDone ? 'var(--accent-green)' : 'var(--text-muted)'}`,
-                                  background: isDone ? 'var(--accent-green)' : 'transparent',
+                                  border: `1.5px solid ${isDone ? 'var(--section-recipe)' : 'var(--text-muted)'}`,
+                                  background: isDone ? 'var(--section-recipe)' : 'transparent',
                                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                                   cursor: 'pointer', marginTop: 2, flexShrink: 0
                                 }}
                                 aria-label={`Mark step ${step.stepNumber} done`}
                               >
-                                {isDone && <Check size={14} color="#042f1a" strokeWidth={3} />}
+                                {isDone && <Check size={14} color="#1a0f00" strokeWidth={3} />}
                               </button>
 
                               <div style={{ flex: 1 }}>
-                                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-green)', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: '0.2rem' }}>
+                                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--section-recipe)', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: '0.2rem' }}>
                                   Step {step.stepNumber}
                                 </div>
                                 <p style={{
