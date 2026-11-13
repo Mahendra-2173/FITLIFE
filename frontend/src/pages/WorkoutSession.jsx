@@ -88,7 +88,7 @@ export default function WorkoutSession() {
   if (!workoutPlan) {
     return (
       <div className="card" style={{ textAlign: 'center', padding: '3.5rem 1.5rem', maxWidth: 500, margin: '2rem auto' }}>
-        <Dumbbell size={36} color="var(--accent-green)" style={{ margin: '0 auto 1rem' }} />
+        <Dumbbell size={36} color="var(--accent-red)" style={{ margin: '0 auto 1rem' }} />
         <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
           No Active Workout Plan Found
         </h3>
@@ -245,7 +245,7 @@ export default function WorkoutSession() {
               <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Duration</div>
             </div>
             <div style={{ background: 'rgba(255, 255, 255, 0.03)', padding: '1rem', borderRadius: 12, border: '1px solid var(--border-color)' }}>
-              <Dumbbell size={20} color="var(--accent-green)" style={{ margin: '0 auto 0.4rem' }} />
+              <Dumbbell size={20} color="var(--accent-red)" style={{ margin: '0 auto 0.4rem' }} />
               <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                 {exercises.length}
               </div>
@@ -289,7 +289,7 @@ export default function WorkoutSession() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-primary)', fontWeight: 800, fontSize: '1.05rem' }}>
-            <Clock size={16} color="var(--accent-green)" />
+            <Clock size={16} color="var(--accent-red)" />
             <span>{formatTime(totalSeconds)}</span>
           </div>
 
@@ -298,7 +298,7 @@ export default function WorkoutSession() {
             onClick={() => setIsPaused(!isPaused)}
             title={isPaused ? 'Resume Session' : 'Pause Session'}
           >
-            {isPaused ? <Play size={15} color="var(--accent-green)" /> : <Pause size={15} color="var(--accent-orange)" />}
+            {isPaused ? <Play size={15} color="var(--accent-red)" /> : <Pause size={15} color="var(--accent-orange)" />}
             {isPaused ? 'Resume' : 'Pause'}
           </button>
         </div>
@@ -310,17 +310,17 @@ export default function WorkoutSession() {
 
       {/* Progress Bar */}
       <div className="progress-bar" style={{ marginBottom: '1.25rem', height: 6 }}>
-        <div className="progress-fill" style={{ width: `${overallProgress}%`, background: 'var(--accent-green)' }} />
+        <div className="progress-fill" style={{ width: `${overallProgress}%`, background: 'var(--accent-red)' }} />
       </div>
 
       {/* Rest Countdown Banner */}
       {isResting && (
         <div style={{
-          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.15))',
-          border: '1.5px solid var(--accent-green)', borderRadius: 'var(--radius)',
+          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(185, 28, 28, 0.15))',
+          border: '1.5px solid var(--accent-red)', borderRadius: 'var(--radius)',
           padding: '1.5rem', marginBottom: '1.25rem', textAlign: 'center'
         }} className="animate-fade-in">
-          <div style={{ fontSize: '0.75rem', color: 'var(--accent-green)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1 }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--accent-red)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1 }}>
             Rest & Hydration Interval
           </div>
           <div style={{ fontSize: '3.2rem', fontWeight: 900, color: 'var(--text-primary)', margin: '0.25rem 0', letterSpacing: '-0.02em' }}>
@@ -341,7 +341,7 @@ export default function WorkoutSession() {
       <div className="card" style={{ marginBottom: '1.25rem', position: 'relative' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
           <div>
-            <div className="badge badge-green" style={{ marginBottom: '0.4rem' }}>
+            <div className="badge badge-red" style={{ marginBottom: '0.4rem' }}>
               {currentExercise?.muscleGroup} · {currentExercise?.category}
             </div>
             <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
@@ -361,7 +361,7 @@ export default function WorkoutSession() {
         }}>
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>CURRENT SET</div>
-            <div style={{ fontSize: '1.75rem', fontWeight: 900, color: 'var(--accent-green)' }}>
+            <div style={{ fontSize: '1.75rem', fontWeight: 900, color: 'var(--accent-red)' }}>
               {currentSet} <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 400 }}>/ {totalSets}</span>
             </div>
           </div>
@@ -395,13 +395,13 @@ export default function WorkoutSession() {
                   style={{
                     flex: 1, minWidth: 70, padding: '0.65rem 0.5rem', textAlign: 'center',
                     borderRadius: 8,
-                    background: isDone ? 'rgba(16, 185, 129, 0.15)' : isCurrent ? 'rgba(56, 189, 248, 0.15)' : 'rgba(255, 255, 255, 0.02)',
-                    border: `1px solid ${isDone ? 'var(--accent-green)' : isCurrent ? 'var(--accent-blue)' : 'var(--border-color)'}`,
+                    background: isDone ? 'rgba(239, 68, 68, 0.18)' : isCurrent ? 'rgba(239, 68, 68, 0.28)' : 'rgba(255, 255, 255, 0.02)',
+                    border: `1px solid ${isDone ? 'var(--accent-red)' : isCurrent ? 'rgba(239, 68, 68, 0.7)' : 'var(--border-color)'}`,
                     transition: 'all 0.15s'
                   }}
                 >
                   <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>Set {setNum}</div>
-                  <div style={{ fontWeight: 800, fontSize: '0.82rem', color: isDone ? 'var(--accent-green)' : 'var(--text-primary)', marginTop: 2 }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.82rem', color: isDone ? 'var(--accent-red)' : 'var(--text-primary)', marginTop: 2 }}>
                     {isDone ? '✓ Done' : isCurrent ? 'Active' : 'Pending'}
                   </div>
                 </div>
@@ -445,7 +445,7 @@ export default function WorkoutSession() {
 
       {/* Alternative Replacement Drawer */}
       {replacing && (
-        <div className="card" style={{ marginBottom: '1.25rem', borderColor: 'var(--accent-green)' }}>
+        <div className="card" style={{ marginBottom: '1.25rem', borderColor: 'var(--accent-red)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h3 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)' }}>
               Alternative Variations for {currentExercise.name}

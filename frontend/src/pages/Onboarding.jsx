@@ -254,8 +254,8 @@ export default function Onboarding() {
                     <button key={g.value}
                       onClick={() => set('goal', g.value)}
                       style={{
-                        background: form.goal === g.value ? 'rgba(16, 185, 129, 0.12)' : 'rgba(255,255,255,0.03)',
-                        border: `1px solid ${form.goal === g.value ? 'var(--accent-green)' : 'var(--border-color)'}`,
+                        background: form.goal === g.value ? 'rgba(239, 68, 68, 0.15)' : 'rgba(255,255,255,0.03)',
+                        border: `1px solid ${form.goal === g.value ? 'var(--accent-red)' : 'var(--border-color)'}`,
                         borderRadius: 10, padding: '0.875rem', cursor: 'pointer',
                         textAlign: 'left', transition: 'all 0.2s', fontFamily: 'inherit'
                       }}>
@@ -275,17 +275,17 @@ export default function Onboarding() {
                     <button key={e.value} onClick={() => set('experience', e.value)}
                       style={{
                         display: 'flex', alignItems: 'center', gap: '0.75rem',
-                        background: form.experience === e.value ? 'rgba(16, 185, 129, 0.12)' : 'transparent',
-                        border: `1px solid ${form.experience === e.value ? 'var(--accent-green)' : 'var(--border-color)'}`,
+                        background: form.experience === e.value ? 'rgba(239, 68, 68, 0.15)' : 'transparent',
+                        border: `1px solid ${form.experience === e.value ? 'var(--accent-red)' : 'var(--border-color)'}`,
                         borderRadius: 10, padding: '0.75rem 1rem', cursor: 'pointer',
                         textAlign: 'left', transition: 'all 0.2s', fontFamily: 'inherit', width: '100%'
                       }}>
                       <div style={{
                         width: 20, height: 20, borderRadius: '50%',
-                        border: `2px solid ${form.experience === e.value ? 'var(--accent-green)' : 'var(--border-color)'}`,
+                        border: `2px solid ${form.experience === e.value ? 'var(--accent-red)' : 'var(--border-color)'}`,
                         display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
                       }}>
-                        {form.experience === e.value && <div style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--accent-green)' }} />}
+                        {form.experience === e.value && <div style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--accent-red)' }} />}
                       </div>
                       <div>
                         <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{e.label}</div>
@@ -308,8 +308,8 @@ export default function Onboarding() {
                   {LOCATIONS.map(l => (
                     <button key={l.value} onClick={() => set('workoutLocation', l.value)}
                       style={{
-                        background: form.workoutLocation === l.value ? 'rgba(16, 185, 129, 0.12)' : 'rgba(255,255,255,0.03)',
-                        border: `1px solid ${form.workoutLocation === l.value ? 'var(--accent-green)' : 'var(--border-color)'}`,
+                        background: form.workoutLocation === l.value ? 'rgba(239, 68, 68, 0.15)' : 'rgba(255,255,255,0.03)',
+                        border: `1px solid ${form.workoutLocation === l.value ? 'var(--accent-red)' : 'var(--border-color)'}`,
                         borderRadius: 10, padding: '0.875rem 0.5rem', cursor: 'pointer',
                         textAlign: 'center', transition: 'all 0.2s', fontFamily: 'inherit'
                       }}>
