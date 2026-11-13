@@ -1,7 +1,13 @@
 # Dependencies
 node_modules/
+*node_modules*
 .pnp
 .pnp.js
+
+# Backup and copy files
+* - Copy*
+*- Copy*
+*-Copy*
 
 # Production build outputs
 dist/
