@@ -23,7 +23,7 @@ import Progress from './pages/Progress';
 import AICoach from './pages/AICoach';
 import Profile from './pages/Profile';
 
-import { Menu, UtensilsCrossed } from 'lucide-react';
+import { Menu, Flame } from 'lucide-react';
 
 function AppLayout() {
   const { isLoading, hasProfile } = useUser();
@@ -71,16 +71,18 @@ function AppLayout() {
             <Menu size={22} />
           </button>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <div style={{
-              width: 28, height: 28, borderRadius: 8,
-              background: 'var(--gradient-green)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center'
+              width: 32, height: 32, borderRadius: 10,
+              background: 'linear-gradient(135deg, #ef4444 0%, #991b1b 100%)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 0 12px rgba(239, 68, 68, 0.45)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <UtensilsCrossed size={16} color="#042f1a" strokeWidth={2.5} />
+              <Flame size={18} color="#ffffff" strokeWidth={2.5} />
             </div>
-            <span style={{ fontWeight: 800, fontSize: '1.05rem', color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
-              FitLife <span style={{ color: 'var(--accent-green)' }}>AI</span>
+            <span style={{ fontWeight: 900, fontSize: '1.1rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
+              FITLIFE <span style={{ color: '#ef4444' }}>AI</span>
             </span>
           </div>
 
