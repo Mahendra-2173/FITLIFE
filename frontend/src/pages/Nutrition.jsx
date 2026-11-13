@@ -507,16 +507,17 @@ export default function Nutrition() {
                   <option value={25}>⏱️ 25 mins (Quick Dinner)</option>
                   <option value={35}>🍲 35 mins (Standard Meal)</option>
                   <option value={50}>🥘 50 mins (Full Prep & Bake)</option>
+                  <option value={60}>🍚 60 mins (Slow Cook / Biryani / Stews)</option>
                 </select>
               </div>
             </div>
 
             {/* Allergies / Notes */}
             <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-              <label className="form-label">Allergies / Special Instructions (Optional)</label>
+              <label className="form-label">Special Dish Request / Allergies / Notes (Optional)</label>
               <input
                 className="form-input"
-                placeholder="e.g. Nut allergy, lactose sensitive, prefer cast-iron or air fryer..."
+                placeholder="e.g. Make Chicken Biryani, extra spicy, nut allergy, air fryer..."
                 value={allergies}
                 onChange={(e) => setAllergies(e.target.value)}
               />

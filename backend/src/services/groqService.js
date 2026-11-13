@@ -128,6 +128,10 @@ function extractJSON(text) {
   } catch (err1) {
     // 5. Clean common JSON syntax mistakes from LLMs safely:
     let repaired = cleaned
+      // Fix missing comma between objects in arrays: } { -> }, {
+      .replace(/\}\s*\{/g, '},{')
+      // Fix missing comma between quoted strings in arrays: "foo" \n "bar" -> "foo", "bar"
+      .replace(/"\s*\n\s*"/g, '",\n"')
       // Remove trailing commas before closing braces/brackets
       .replace(/,\s*([}\]])/g, '$1')
       // Remove JavaScript comments
@@ -142,11 +146,45 @@ function extractJSON(text) {
       try {
         return JSON.parse(withKeys);
       } catch (err3) {
-        console.warn('[extractJSON] Failed standard & repaired JSON parse. Raw preview:', cleaned.substring(0, 180));
-        throw new Error(`Malformed JSON output from AI: ${err1.message}`);
+        // 7. Try balancing truncated brackets/braces (if LLM output cut off)
+        try {
+          const balanced = balanceStack(withKeys);
+          return JSON.parse(balanced);
+        } catch (err4) {
+          console.warn('[extractJSON] Failed standard & repaired JSON parse. Raw preview:', cleaned.substring(0, 180));
+          throw new Error(`Malformed JSON output from AI: ${err1.message}`);
+        }
       }
     }
   }
+}
+
+/**
+ * Balance unclosed brackets and braces for truncated JSON strings
+ */
+function balanceStack(str) {
+  let stack = [];
+  let inString = false;
+  let escape = false;
+  for (let i = 0; i < str.length; i++) {
+    const c = str[i];
+    if (escape) { escape = false; continue; }
+    if (c === '\\') { escape = true; continue; }
+    if (c === '"') { inString = !inString; continue; }
+    if (!inString) {
+      if (c === '{') stack.push('}');
+      else if (c === '[') stack.push(']');
+      else if (c === '}' || c === ']') {
+        const last = stack[stack.length - 1];
+        if (last === c) stack.pop();
+      }
+    }
+  }
+  let result = str;
+  if (inString) result += '"';
+  result = result.replace(/,\s*$/, '');
+  while (stack.length > 0) result += stack.pop();
+  return result;
 }
 
 /**
@@ -380,7 +418,9 @@ RULES:
 - Units must be clear (e.g., grams, ml, cups, tbsp, tsp, pieces, cloves).
 - Include realistic step timers (in minutes) where appropriate.
 - Provide practical substitutions for the main ingredients.
-- Keep total cooking time within ${maxCookingTime} minutes.`;
+- Keep total cooking time within ${maxCookingTime} minutes.
+- ICONIC NAMED DISH RECOGNITION: If the available ingredients match a well-known culinary dish (e.g., Chicken + Rice + Spices/Yogurt = Chicken Biryani; Chicken + Cream/Tomato/Spices = Butter Chicken; Ground Meat + Tortillas = Tacos; Rice + Eggs/Veggies = Fried Rice) or if the user explicitly requested a dish in the notes/instructions, ALWAYS construct and name that authentic dish (e.g. "Authentic Hyderabadi Chicken Biryani" or "Quick Dum Chicken Biryani") rather than a generic descriptive name like "Garlic Herb Chicken".
+- COOKING TIME ADAPTATION: If the traditional dish normally takes longer than ${maxCookingTime} minutes (like traditional Dum Biryani), adapt the technique into an express one-pot or pressure-cooker method so total cooking time fits within ${maxCookingTime} minutes.`;
 
   try {
     const rawResponse = await callGroq(systemPrompt, userPrompt, 4096);
@@ -812,6 +852,67 @@ Return ONLY this JSON:
 function getFallbackRecipe(options, failureReason) {
   const servings = options.servings || 2;
   const isVeg = options.dietaryPreference === 'vegetarian' || options.dietaryPreference === 'vegan';
+
+  const allIngredientsStr = [
+    ...(Array.isArray(options.availableIngredients) ? options.availableIngredients : [options.availableIngredients || '']),
+    options.allergies || '',
+  ].join(' ').toLowerCase();
+
+  const isBiryaniMatch =
+    allIngredientsStr.includes('biryani') ||
+    (allIngredientsStr.includes('chicken') && allIngredientsStr.includes('rice') && (allIngredientsStr.includes('yogurt') || allIngredientsStr.includes('masala') || allIngredientsStr.includes('spices') || allIngredientsStr.includes('onion') || allIngredientsStr.includes('curd')));
+
+  if (!isVeg && isBiryaniMatch) {
+    return {
+      id: `rcp_fb_${Date.now()}`,
+      name: "Aromatic Dum-Style Chicken Biryani",
+      description: "Fragrant long-grain basmati rice layered over spiced marinated chicken, golden onions, mint, and warm saffron spices cooked in an authentic sealed pot.",
+      prepTimeMinutes: 15,
+      cookTimeMinutes: 30,
+      totalTimeMinutes: 45,
+      servings: servings,
+      difficulty: "Medium",
+      cuisine: "Indian / Mughlai",
+      dietaryCategory: "High-Protein Balanced",
+      ingredients: [
+        { id: "ing_1", name: "Chicken (Thighs or Breast)", quantity: 350 * (servings / 2), unit: "grams", notes: "Cut into bite-sized curry pieces", isPantryStaple: false },
+        { id: "ing_2", name: "Aged Basmati Rice", quantity: 200 * (servings / 2), unit: "grams", notes: "Rinsed and soaked for 20 minutes", isPantryStaple: false },
+        { id: "ing_3", name: "Plain Greek Yogurt or Curd", quantity: 100 * (servings / 2), unit: "grams", notes: "Whisked smooth for marinade", isPantryStaple: false },
+        { id: "ing_4", name: "Onions (for Birista)", quantity: 2 * (servings / 2), unit: "pieces", notes: "Thinly sliced and caramelized until golden", isPantryStaple: false },
+        { id: "ing_5", name: "Ginger-Garlic Paste", quantity: 1.5 * (servings / 2), unit: "tbsp", notes: "Freshly ground", isPantryStaple: true },
+        { id: "ing_6", name: "Biryani Masala & Spices", quantity: 1.5 * (servings / 2), unit: "tbsp", notes: "Garam masala, turmeric, chili powder, cloves, cardamom", isPantryStaple: true },
+        { id: "ing_7", name: "Fresh Mint & Coriander", quantity: 20 * (servings / 2), unit: "grams", notes: "Roughly chopped for layering", isPantryStaple: false },
+        { id: "ing_8", name: "Ghee or Cooking Oil", quantity: 1.5 * (servings / 2), unit: "tbsp", notes: "For searing and layering richness", isPantryStaple: true }
+      ],
+      instructions: [
+        { stepNumber: 1, instruction: "In a mixing bowl, marinate chicken with yogurt, ginger-garlic paste, biryani masala, half the mint/coriander, salt, and 1 tsp oil for 10-15 minutes.", tip: "Even a quick 10-minute marinade tenderizes the chicken fibers.", timerMinutes: 10 },
+        { stepNumber: 2, instruction: "Bring a large pot of water to a rolling boil with whole spices and salt. Add soaked basmati rice and cook for 5-6 minutes until 70% done (firm core). Drain immediately.", tip: "Do not overboil; the rice finishes during the dum steam.", timerMinutes: 6 },
+        { stepNumber: 3, instruction: "In a heavy-bottomed pot, sear the marinated chicken over medium heat for 6-8 minutes until lightly browned. Layer the parboiled rice over the chicken. Top with golden fried onions, remaining mint, and a drizzle of ghee.", tip: "Seal lid tightly with foil or a moist towel to trap aromatic steam.", timerMinutes: 8 },
+        { stepNumber: 4, instruction: "Cover with a tight-fitting lid and cook on low heat ('Dum') for 15 minutes undisturbed. Rest 5 minutes, then gently fluff layers from the bottom.", tip: "Use a flat spatula to avoid breaking delicate long basmati grains.", timerMinutes: 15 }
+      ],
+      substitutions: [
+        { originalIngredient: "Chicken", substituteIngredient: "Paneer Cubes or Firm Tofu", reasonOrRatio: "1:1 ratio for high-protein vegetarian adaptation." },
+        { originalIngredient: "Aged Basmati Rice", substituteIngredient: "Brown Basmati Rice or Quinoa", reasonOrRatio: "1:1 ratio. If using brown rice, parboil for 18 minutes." },
+        { originalIngredient: "Greek Yogurt", substituteIngredient: "Coconut Cream or Lemon Juice", reasonOrRatio: "1:1 ratio for dairy-free acidity in the marinade." }
+      ],
+      estimatedNutrition: {
+        caloriesPerServing: 520,
+        proteinGrams: 42,
+        carbsGrams: 58,
+        fatGrams: 14,
+        fiberGrams: 4,
+        disclaimer: "Estimated values calculated by AI nutrition engine; not for medical diagnosis."
+      },
+      cookingTips: [
+        "Soaking the basmati rice ensures long, non-sticky, restaurant-quality grains.",
+        "Serve hot with cooling cucumber-mint raita or fresh onion rings."
+      ],
+      tags: ["High-Protein", "Authentic Biryani", "Dum Cooking", "Meal Prep Champion"],
+      isAIGenerated: false,
+      isFallback: true,
+      fallbackReason: failureReason || "Offline template loaded because AI service is unavailable."
+    };
+  }
 
   if (isVeg) {
     return {

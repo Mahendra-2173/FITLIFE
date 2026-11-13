@@ -347,6 +347,21 @@ async function runTestSuite() {
     assert.strictEqual(parsed.minutes, 15);
   });
 
+  test('extractJSON repairs missing commas between array objects', () => {
+    const raw = '[\n  { "name": "Step 1" }\n  { "name": "Step 2" }\n]';
+    const parsed = extractJSON(raw);
+    assert.strictEqual(parsed.length, 2);
+    assert.strictEqual(parsed[0].name, 'Step 1');
+    assert.strictEqual(parsed[1].name, 'Step 2');
+  });
+
+  test('extractJSON balances unclosed truncated JSON brackets', () => {
+    const raw = '{"name": "Biryani", "tags": ["Spicy", "High-Protein"';
+    const parsed = extractJSON(raw);
+    assert.strictEqual(parsed.name, 'Biryani');
+    assert.strictEqual(parsed.tags.length, 2);
+  });
+
   test('extractJSON rejects empty or null responses', () => {
     assert.throws(() => extractJSON(''), /Empty AI response/);
     assert.throws(() => extractJSON(null), /Empty AI response/);
@@ -382,6 +397,21 @@ async function runTestSuite() {
     const validation = validateRecipe(fallback);
     assert.strictEqual(validation.success, true, 'Vegetarian fallback must pass RecipeSchema');
     assert.strictEqual(validation.data.dietaryCategory, 'Vegetarian');
+  });
+
+  test('Biryani fallback recipe activates on Biryani ingredients and strictly satisfies RecipeSchema', () => {
+    const fallback = getFallbackRecipe({
+      availableIngredients: ['chicken', 'basmati rice', 'yogurt', 'biryani masala', 'mint'],
+      servings: 3,
+      maxCookingTime: 45,
+    });
+    const validation = validateRecipe(fallback);
+    assert.strictEqual(validation.success, true, 'Biryani fallback must pass RecipeSchema');
+    assert.ok(validation.data.name.toLowerCase().includes('biryani'));
+    assert.strictEqual(validation.data.cuisine, 'Indian / Mughlai');
+    assert.strictEqual(validation.data.servings, 3);
+    assert.ok(validation.data.instructions.length >= 4);
+    assert.ok(validation.data.ingredients.some(i => i.name.toLowerCase().includes('basmati rice')));
   });
 
   test('Custom serving-sizes scale fallback ingredient quantities accurately and pass Zod', () => {
