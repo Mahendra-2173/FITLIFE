@@ -44,12 +44,12 @@ function getGroqClient() {
 }
 
 const CANDIDATE_MODELS = [
-  process.env.GROQ_MODEL || 'openai/gpt-oss-120b',
+  process.env.GROQ_MODEL || 'llama-3.1-8b-instant',
+  'llama-3.1-8b-instant',
   'openai/gpt-oss-120b',
   'openai/gpt-oss-20b',
-  'qwen/qwen3.8-27b',
   'llama-3.3-70b-versatile',
-  'llama-3.1-8b-instant',
+  'qwen/qwen3.8-27b',
 ];
 
 let cachedDiscoveredModels = null;
@@ -152,7 +152,7 @@ function extractJSON(text) {
 /**
  * Core function to call Groq with timeout protection & AbortController
  */
-async function callGroq(systemPrompt, userPrompt, maxTokens = 4096, timeoutMs = 25000) {
+async function callGroq(systemPrompt, userPrompt, maxTokens = 4096, timeoutMs = 15000) {
   const client = getGroqClient();
   if (!client) {
     throw new Error('Groq client is not configured or valid API key is missing. Set GROQ_API_KEY in backend/.env.');
@@ -213,7 +213,22 @@ async function callGroq(systemPrompt, userPrompt, maxTokens = 4096, timeoutMs = 
       clearTimeout(timeoutId);
       lastError = err;
 
-      // If model not found or decommissioned, cascade to next available model
+      // Only halt cascade if credentials are fundamentally invalid
+      if (err.status === 401 || (err.message && err.message.includes('Invalid API Key'))) {
+        throw new Error('Groq API authentication failed. Verify GROQ_API_KEY in backend/.env.');
+      }
+
+      // Proactively cascade on rate limits (429), timeouts, server load (5xx), or model retirement
+      const isRateLimit =
+        err.status === 429 ||
+        err.message?.includes('rate_limit') ||
+        err.message?.includes('Rate limit') ||
+        err.message?.includes('tokens per minute') ||
+        err.message?.includes('TPM') ||
+        err.message?.includes('RPM');
+
+      const isTimeout = err.name === 'AbortError' || controller.signal.aborted;
+      const isServerLoad = err.status >= 500 || err.message?.includes('overloaded');
       const isModelUnavailable =
         err.status === 404 ||
         err.status === 400 ||
@@ -222,19 +237,11 @@ async function callGroq(systemPrompt, userPrompt, maxTokens = 4096, timeoutMs = 
         err.message?.includes('decommissioned') ||
         err.message?.includes('does not exist');
 
-      if (isModelUnavailable) {
-        console.warn(`[groqService] Model "${modelToUse}" unavailable (${err.message}). Trying next candidate...`);
+      if (isRateLimit || isTimeout || isServerLoad || isModelUnavailable) {
+        console.warn(`[groqService] Model "${modelToUse}" had temporary condition (${isRateLimit ? 'Rate limit / TPM reached' : isTimeout ? 'Timed out' : err.message}). Cascading to next candidate model...`);
         continue;
       }
-      if (err.name === 'AbortError' || controller.signal.aborted) {
-        throw new Error(`AI request timed out after ${timeoutMs / 1000} seconds`);
-      }
-      if (err.status === 401 || err.message?.includes('API key')) {
-        throw new Error('Groq API authentication failed. Verify GROQ_API_KEY.');
-      }
-      if (err.status === 429) {
-        throw new Error('Groq API rate limit exceeded. Please wait a moment and try again.');
-      }
+
       throw err;
     }
   }
