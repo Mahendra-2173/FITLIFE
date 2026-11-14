@@ -127,53 +127,49 @@ export default function Sidebar({ isOpen, onClose }) {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <div style={{
-                width: 42,
-                height: 42,
+                width: 44,
+                height: 44,
                 borderRadius: 12,
-                background: 'linear-gradient(135deg, #ef4444 0%, #991b1b 100%)',
+                background: 'rgba(255, 255, 255, 0.04)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 0 20px rgba(239, 68, 68, 0.45)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 0 16px rgba(239, 68, 68, 0.25)',
+                border: '1px solid rgba(239, 68, 68, 0.35)',
+                overflow: 'hidden',
                 flexShrink: 0
               }}>
-                <Flame size={22} color="#ffffff" strokeWidth={2.5} />
+                <img
+                  src="/fitlife_logo_transparent.png"
+                  alt="FITLIFE Logo"
+                  style={{ width: 40, height: 40, objectFit: 'contain' }}
+                />
               </div>
 
               <div>
                 <div style={{
                   fontWeight: 900,
-                  fontSize: '1.15rem',
+                  fontSize: '1.25rem',
                   color: '#ffffff',
                   letterSpacing: '-0.025em',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.4rem'
+                  gap: '0.45rem',
+                  lineHeight: 1.1
                 }}>
                   FITLIFE
                   <span style={{
-                    fontSize: '0.65rem',
-                    fontWeight: 800,
+                    fontSize: '0.72rem',
+                    fontWeight: 900,
                     background: 'rgba(239, 68, 68, 0.25)',
                     color: '#f87171',
-                    padding: '1px 6px',
+                    padding: '2px 7px',
                     borderRadius: 4,
                     border: '1px solid rgba(239, 68, 68, 0.5)',
-                    letterSpacing: '0.05em'
+                    letterSpacing: '0.06em'
                   }}>
-                    PRO AI
+                    AI
                   </span>
-                </div>
-                <div style={{
-                  fontSize: '0.65rem',
-                  fontWeight: 700,
-                  color: 'rgba(255, 255, 255, 0.45)',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  marginTop: 1
-                }}>
-                  Performance & Recipes
                 </div>
               </div>
             </div>

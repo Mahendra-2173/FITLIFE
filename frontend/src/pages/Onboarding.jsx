@@ -154,14 +154,16 @@ export default function Onboarding() {
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            width: 60, height: 60, borderRadius: 16,
-            background: 'var(--gradient-green)', marginBottom: '1rem',
-            boxShadow: 'var(--shadow-green)'
+            width: 72, height: 72, borderRadius: 20,
+            background: 'rgba(255, 255, 255, 0.04)', marginBottom: '1rem',
+            boxShadow: '0 0 24px rgba(239, 68, 68, 0.35)',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            overflow: 'hidden'
           }}>
-            <Zap size={28} color="#042f1a" fill="#042f1a" />
+            <img src="/fitlife_logo_transparent.png" alt="FITLIFE Logo" style={{ width: 62, height: 62, objectFit: 'contain' }} />
           </div>
           <h1 style={{ fontSize: '1.75rem', fontWeight: 900, color: 'var(--text-primary)' }}>
-            Welcome to <span className="text-gradient">FitLife AI</span>
+            Welcome to <span className="text-gradient">FITLIFE AI</span>
           </h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem', fontSize: '0.9rem' }}>
             Smart Fridge-to-Recipe Engine & Personal Health Management

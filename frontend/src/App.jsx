@@ -32,7 +32,7 @@ function AppLayout() {
   if (isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: 'var(--bg-primary)' }}>
-        <LoadingSpinner text="Starting FitLife AI Engine..." />
+        <LoadingSpinner text="Starting FITLIFE AI Engine..." />
       </div>
     );
   }
@@ -73,15 +73,20 @@ function AppLayout() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
             <div style={{
-              width: 32, height: 32, borderRadius: 10,
-              background: 'linear-gradient(135deg, #ef4444 0%, #991b1b 100%)',
+              width: 32, height: 32, borderRadius: 8,
+              background: 'rgba(255, 255, 255, 0.04)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 0 12px rgba(239, 68, 68, 0.45)',
-              border: '1px solid rgba(255, 255, 255, 0.2)'
+              boxShadow: '0 0 12px rgba(239, 68, 68, 0.3)',
+              border: '1px solid rgba(239, 68, 68, 0.25)',
+              overflow: 'hidden'
             }}>
-              <Flame size={18} color="#ffffff" strokeWidth={2.5} />
+              <img
+                src="/fitlife_logo_transparent.png"
+                alt="FITLIFE Logo"
+                style={{ width: 28, height: 28, objectFit: 'contain' }}
+              />
             </div>
-            <span style={{ fontWeight: 900, fontSize: '1.1rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
+            <span style={{ fontWeight: 900, fontSize: '1.15rem', color: '#ffffff', letterSpacing: '-0.02em' }}>
               FITLIFE <span style={{ color: '#ef4444' }}>AI</span>
             </span>
           </div>
