@@ -308,7 +308,7 @@ export default function DailyPlanner() {
                       </div>
                     </div>
 
-                    {/* Reorder and Delete Controls (PDF Trip/Planner Requirement!) */}
+                    {/* Reorder and Delete Controls */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0 }}>
                       <button
                         className="btn btn-icon btn-ghost"

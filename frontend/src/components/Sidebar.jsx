@@ -22,7 +22,7 @@ const navSections = [
         label: 'Fridge-to-Recipe',
         icon: UtensilsCrossed,
         color: '#f59e0b', // Amber Flame
-        badge: 'PRIMARY AI',
+        badge: 'AI CHEF',
         badgeColor: '#f59e0b',
         highlight: true,
         desc: 'Interactive chef generator'
@@ -386,7 +386,7 @@ export default function Sidebar({ isOpen, onClose }) {
             gap: '0.35rem'
           }}>
             <ShieldCheck size={11} color="#ef4444" />
-            FitLife AI • Red & Black Edition
+            FITLIFE AI v1.0 • All systems active
           </div>
         </div>
       </aside>

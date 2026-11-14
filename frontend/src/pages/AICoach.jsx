@@ -182,7 +182,7 @@ export default function AICoach() {
             </p>
           </div>
 
-          {/* Actionable Steps Checklist Block (PDF Requirement!) */}
+          {/* Actionable Steps Checklist Block */}
           {result.actionSteps && result.actionSteps.length > 0 && (
             <div className="card">
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.875rem' }}>

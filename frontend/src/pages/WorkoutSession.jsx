@@ -74,7 +74,7 @@ export default function WorkoutSession() {
     };
   }, [isResting, restTimeRemaining, isPaused]);
 
-  // Handle safe exit with user confirmation (Assignment Requirement)
+  // Handle safe exit with user confirmation
   const handleExit = () => {
     if (totalSeconds > 10 && !workoutComplete) {
       const confirmLeave = window.confirm(

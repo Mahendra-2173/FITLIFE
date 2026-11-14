@@ -21,7 +21,7 @@ const favoriteRecipes = [];
 let mealPlanStore = null;
 
 // ─────────────────────────────────────────────────────────────────────
-// 🍳 PRIMARY ASSIGNMENT FEATURE: FRIDGE-TO-RECIPE ROUTES
+// 🍳 FRIDGE-TO-RECIPE ROUTES
 // ─────────────────────────────────────────────────────────────────────
 
 /**

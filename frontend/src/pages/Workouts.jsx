@@ -24,7 +24,7 @@ export default function Workouts() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Stale request race-condition protection (PDF requirement!)
+  // Stale request race-condition protection
   const activeRequestId = useRef(0);
 
   const generate = async (isRefinement = false) => {
@@ -71,7 +71,7 @@ export default function Workouts() {
         }
       />
 
-      {/* Free-form Natural Language Prompt Bar (PDF Requirement!) */}
+      {/* Free-form Natural Language Prompt Bar */}
       <div className="card" style={{
         marginBottom: '1.5rem',
         background: 'linear-gradient(135deg, rgba(139,92,246,0.1), rgba(59,130,246,0.05))',
@@ -244,7 +244,7 @@ export default function Workouts() {
             })}
           </div>
 
-          {/* Refinement Loop (PDF Stretch Goal!) */}
+          {/* Refinement Loop */}
           <div className="card" style={{
             background: 'rgba(255,255,255,0.02)',
             border: '1px dashed var(--border-color)',

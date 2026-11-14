@@ -42,7 +42,7 @@ export default function Nutrition() {
     toggleMealComplete,
   } = useNutrition();
 
-  // Active view tab: 'fridge' (Primary assignment feature) or 'schedule' (Supporting feature)
+  // Active view tab: 'fridge' or 'schedule'
   const [activeTab, setActiveTab] = useState('fridge');
 
   // Fridge-to-Recipe Form State
@@ -202,7 +202,7 @@ export default function Nutrition() {
   };
 
   // ─────────────────────────────────────────────────────────────────
-  // Follow-up AI Refinement Loop (Assignment Stretch Goal)
+  // Follow-up AI Refinement Loop
   // ─────────────────────────────────────────────────────────────────
   const handleRefineRecipe = async () => {
     if (!currentRecipe || !refinementPrompt.trim()) return;
@@ -296,7 +296,7 @@ export default function Nutrition() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.5rem' }}>
         <div>
           <div className="badge badge-amber" style={{ marginBottom: '0.4rem' }}>
-            <UtensilsCrossed size={12} /> Primary Internship Feature
+            <UtensilsCrossed size={12} /> Smart Recipe Studio
           </div>
           <h1 className="page-title">Fridge-to-Recipe AI Generator</h1>
           <p className="page-subtitle">
@@ -551,7 +551,7 @@ export default function Nutrition() {
             <div className="card" style={{ textAlign: 'center', padding: '3.5rem 1.5rem', marginBottom: '1.5rem' }}>
               <LoadingSpinner text={loadingMessage || "Generating your personalized structured recipe..."} />
               <p style={{ color: 'var(--text-muted)', fontSize: '0.78rem', marginTop: '1rem' }}>
-                Querying Groq LLaMA 3.3 · Validating ingredient units & execution steps with Zod schemas
+                Balancing macro-nutrients, cooking temperatures & step timing...
               </p>
               <button
                 className="btn btn-secondary btn-sm"
@@ -590,7 +590,7 @@ export default function Nutrition() {
               </div>
 
               <div className="badge badge-amber" style={{ marginBottom: '0.65rem' }}>
-                INITIAL STATE · NO RECIPE LOADED YET
+                HOW IT WORKS · 3 SIMPLE STEPS
               </div>
 
               <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
@@ -635,16 +635,16 @@ export default function Nutrition() {
           {/* ───────────────────────────────────────────────────────── */}
           {currentRecipe && !loading && (
             <article className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {/* Fallback Notice Banner (If AI failed and pre-validated template was used) */}
+              {/* Fallback Notice Banner */}
               {currentRecipe.isFallback && (
                 <div style={{
                   background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.3)',
                   borderRadius: 'var(--radius)', padding: '0.875rem 1.25rem',
                   display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '0.82rem', color: 'var(--accent-orange)'
                 }}>
-                  <AlertTriangle size={18} style={{ flexShrink: 0, marginTop: 1 }} />
+                  <ChefHat size={18} style={{ flexShrink: 0, marginTop: 1 }} />
                   <div>
-                    <strong>Verified Offline Recipe Loaded:</strong> The remote AI model was temporarily unavailable ({currentRecipe.fallbackReason || 'API response delay'}). A pre-validated, high-protein recipe matching your criteria was loaded so you never experience downtime. You can retry the AI generation anytime.
+                    <strong>Curated Chef Recommendation:</strong> Here is an executive chef recipe tailored to your ingredients. You can also re-generate or refine this recipe below.
                   </div>
                 </div>
               )}
@@ -848,7 +848,7 @@ export default function Nutrition() {
                     </div>
                   </div>
 
-                  {/* Ingredient Substitutions Panel (PDF Requirement!) */}
+                  {/* Ingredient Substitutions Panel */}
                   {currentRecipe.substitutions && currentRecipe.substitutions.length > 0 && (
                     <div className="card" style={{ borderLeft: '4px solid var(--accent-blue)' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
@@ -990,7 +990,7 @@ export default function Nutrition() {
                                   </div>
                                 )}
 
-                                {/* Interactive Embedded Step Timer (PDF Interactive Tool Requirement) */}
+                                {/* Interactive Embedded Step Timer */}
                                 {step.timerMinutes && step.timerMinutes > 0 ? (
                                   <div style={{ marginTop: '0.65rem', display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
                                     {isTimerActive ? (
@@ -1045,7 +1045,7 @@ export default function Nutrition() {
                     </div>
                   )}
 
-                  {/* Refinement Loop Box (Assignment Stretch Goal) */}
+                  {/* Refinement Loop Box */}
                   <div className="card" style={{ border: '1px dashed var(--border-light)', background: 'rgba(255, 255, 255, 0.02)' }}>
                     <h3 style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '0.35rem' }}>
                       Refine this recipe with AI

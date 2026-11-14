@@ -101,7 +101,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {/* ─── 2. PRIMARY ASSIGNMENT FEATURE: FRIDGE-TO-RECIPE HERO SPOTLIGHT ─── */}
+      {/* ─── 2. FRIDGE-TO-RECIPE HERO SPOTLIGHT ─── */}
       <section className="card card-interactive" style={{
         marginBottom: '1.75rem',
         background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.14) 0%, rgba(18, 18, 24, 0.96) 100%)',
@@ -121,8 +121,8 @@ export default function Dashboard() {
 
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: 2 }}>
-                <span className="badge badge-amber" style={{ fontSize: '0.65rem' }}>PRIMARY ASSIGNMENT FEATURE</span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>AI Culinary Engine</span>
+                <span className="badge badge-amber" style={{ fontSize: '0.65rem' }}>FEATURED AI ENGINE</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>AI Culinary Studio</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>
                 Fridge-to-Recipe AI Generator

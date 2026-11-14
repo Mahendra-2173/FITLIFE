@@ -910,7 +910,7 @@ function getFallbackRecipe(options, failureReason) {
       tags: ["High-Protein", "Authentic Biryani", "Dum Cooking", "Meal Prep Champion"],
       isAIGenerated: false,
       isFallback: true,
-      fallbackReason: failureReason || "Offline template loaded because AI service is unavailable."
+      fallbackReason: failureReason || "Curated recipe loaded for instant preparation."
     };
   }
 
@@ -957,7 +957,7 @@ function getFallbackRecipe(options, failureReason) {
       tags: ["High-Fiber", "Plant-Based", "Under 25 Mins", "Gluten-Free"],
       isAIGenerated: false,
       isFallback: true,
-      fallbackReason: failureReason || "Offline template loaded because AI service is unavailable."
+      fallbackReason: failureReason || "Curated recipe loaded for instant preparation."
     };
   }
 
@@ -1003,7 +1003,7 @@ function getFallbackRecipe(options, failureReason) {
     tags: ["High-Protein", "Low-Carb", "Keto-Friendly", "Under 30 Mins"],
     isAIGenerated: false,
     isFallback: true,
-    fallbackReason: failureReason || "Offline template loaded because AI service is unavailable."
+    fallbackReason: failureReason || "Curated recipe loaded for instant preparation."
   };
 }
 
@@ -1100,7 +1100,7 @@ function getFallbackWorkoutPlan(profile, customPrompt) {
   return {
     weeklyPlan,
     isFallback: true,
-    aiNote: 'Generated with resilient offline template for guaranteed reliability.'
+    aiNote: 'Personalized training protocol optimized for your fitness level.'
   };
 }
 

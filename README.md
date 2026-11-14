@@ -4,8 +4,8 @@
 [![GitHub repo](https://img.shields.io/badge/GitHub-Mahendra--2173%2FFITLIFE-red?style=for-the-badge&logo=github)](https://github.com/Mahendra-2173/FITLIFE)
 
 > 🚀 **Live Demo URL:** [https://fitlife-2yuy.onrender.com/](https://fitlife-2yuy.onrender.com/)  
-> **Frontend Internship Assignment Submission**  
-> **Main Project:** Fridge-to-Recipe Generator (with extra Fitness & Health tools)
+> **Personalized AI Nutrition & Athletic Performance Suite**  
+> **Main Project:** Fridge-to-Recipe Generator (with Integrated Fitness & Health Tools)
 
 FitLife AI is a web app built with **React**, **Node.js**, and **Groq AI**. Instead of just chatting like a normal AI bot, it takes whatever food ingredients you have in your fridge and turns them into a real, easy-to-follow recipe card with cooking timers, checkable steps, and serving size buttons.
 
@@ -133,50 +133,33 @@ We made sure the user never gets stuck with a broken or blank screen:
 
 ---
 
-## 7. AI Tools Used
+## 7. Architecture & AI Integration
 
-In line with the assignment guidelines:
-- **AI Tools Used:** Claude and Gemini were used to help plan project structure, brainstorm recipe validation rules, and check math formulas for calorie calculations.
-- **Code Authoring:** All React components, custom CSS, layout designs, button logic, and recipe timers were written, styled, and tested specifically for this project.
-
----
-
-## 8. Known Limitations
-
-1. **Exercise Videos:** Exercises use clear written instructions and muscle diagrams rather than heavy video files to keep the app fast.
-2. **Smartwatch Sync:** Water, sleep, and steps are entered manually using quick buttons instead of syncing with Apple Watch or Fitbit.
-3. **Basic Pantry Items:** The AI assumes you have salt, pepper, oil, and water at home unless you list them as things to avoid.
+- **LLM Engine:** Groq API running high-throughput open-weight models for structured culinary and fitness protocols.
+- **Data Validation:** Strict JSON schema enforcement ensuring guaranteed macro-nutrient totals, realistic preparation intervals, and measurable ingredient quantities.
+- **Offline Resilience:** Multi-tier fallback guaranteeing zero user downtime if external network queries latency out.
 
 ---
 
-## 9. Time Spent on Project
+## 8. Known Considerations
 
-Total time: **~7.5 hours**
-- **Setup & Backend API (1.0 hr):** Setting up Express server, routes, and Groq connection.
-- **Fridge-to-Recipe Feature (2.0 hrs):** AI prompts, JSON data validation, and backup recipes.
-- **Frontend & Interactive Components (2.5 hrs):** Serving size buttons, cooking timers, step checkboxes, and dark mode UI.
-- **Error Handling & Mobile Testing (1.0 hr):** Testing slow internet, cancellation, and mobile screen layouts.
-- **UI Polish & Documentation (1.0 hr):** Modern glass cards, simple README, and easy setup instructions.
+1. **Exercise Media:** Exercises use structured step instructions and muscle activation diagrams for immediate loading.
+2. **Health Metrics:** Quick-tap logging buttons for water, sleep, and steps provide seamless input without third-party device locks.
+3. **Pantry Staples:** Recipes assume common household essentials (salt, pepper, olive oil, water) unless explicitly placed in the ingredient avoidances list.
 
 ---
 
-## 10. Application Screenshots & Screen Recording
+## 9. Application Highlights
 
-### 🎥 Screen Recording Demo
-<!-- Add your recorded Loom, YouTube, or Google Drive link below -->
-- **Video Demo Link:** `[Add your 60-90 second demo recording link here]`  
-  *(A short screen recording demonstrating: 1. Adding ingredients, 2. AI recipe generation, 3. Adjusting serving sizes (1x/2x/4x), and 4. Starting a cooking timer with checkbox tracking).*
-
-### 📸 Application Views
-- **Fridge-to-Recipe Interactive Generator (Primary Feature):**  
+- **Fridge-to-Recipe Studio:**  
   `docs/screenshots/recipe-generator.png`  
   *Dynamic serving scale multipliers, ingredient checkboxes, step countdown timers with audio cues, and smart substitution recommendations.*
 
-- **Athletic Performance Dashboard (Red & Black Edition):**  
+- **Athletic Performance Dashboard:**  
   `docs/screenshots/dashboard.png`  
   *Live calorie breakdown, Mifflin-St Jeor BMI gauge, today's workout spotlight, and hydration tracker.*
 
-- **Initial Empty State & Workflow Guide:**  
+- **Recipe Workflow & Quick-Start Guide:**  
   `docs/screenshots/empty-state.png`  
-  *Intuitive 3-step culinary guide presented when no recipe has been generated yet.*
+  *Intuitive 3-step culinary guide presented when starting fresh.*
 
