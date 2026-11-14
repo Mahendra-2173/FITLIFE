@@ -1,5 +1,9 @@
-# FitLife AI — Smart Fridge-to-Recipe & Fitness App
+# FITLIFE AI — Smart Fridge-to-Recipe & Fitness App
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-fitlife--2yuy.onrender.com-brightgreen?style=for-the-badge&logo=render)](https://fitlife-2yuy.onrender.com/)
+[![GitHub repo](https://img.shields.io/badge/GitHub-Mahendra--2173%2FFITLIFE-red?style=for-the-badge&logo=github)](https://github.com/Mahendra-2173/FITLIFE)
+
+> 🚀 **Live Demo URL:** [https://fitlife-2yuy.onrender.com/](https://fitlife-2yuy.onrender.com/)  
 > **Frontend Internship Assignment Submission**  
 > **Main Project:** Fridge-to-Recipe Generator (with extra Fitness & Health tools)
 
@@ -84,14 +88,15 @@ The app works out-of-the-box with pre-saved healthy recipes. To enable live AI g
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-- **Frontend App:** `http://localhost:5173`
-- **Backend API:** `http://localhost:5000/api`
+- **Live Production App:** [https://fitlife-2yuy.onrender.com/](https://fitlife-2yuy.onrender.com/)
+- **Local Frontend:** `http://localhost:5173`
+- **Local Backend API:** `http://localhost:5000/api`
 
 ---
 
 ## 5. Automated Tests
 
-Run the full validation and failure-handling test suite (27 comprehensive tests):
+Run the full validation and failure-handling test suite (30 comprehensive tests):
 ```bash
 npm test
 ```
