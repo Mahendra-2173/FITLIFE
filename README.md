@@ -149,17 +149,13 @@ We made sure the user never gets stuck with a broken or blank screen:
 
 ---
 
-## 9. Application Highlights
+## 9. Application Screenshots
 
-- **Fridge-to-Recipe Studio:**  
-  `docs/screenshots/recipe-generator.png`  
-  *Dynamic serving scale multipliers, ingredient checkboxes, step countdown timers with audio cues, and smart substitution recommendations.*
+### 🍳 Fridge-to-Recipe Studio
+![Fridge-to-Recipe Studio](docs/screenshots/recipe-generator.jpg)
+*Dynamic serving scale multipliers, ingredient checkboxes, step countdown timers with audio cues, and smart substitution recommendations.*
 
-- **Athletic Performance Dashboard:**  
-  `docs/screenshots/dashboard.png`  
-  *Live calorie breakdown, Mifflin-St Jeor BMI gauge, today's workout spotlight, and hydration tracker.*
-
-- **Recipe Workflow & Quick-Start Guide:**  
-  `docs/screenshots/empty-state.png`  
-  *Intuitive 3-step culinary guide presented when starting fresh.*
+### 📊 Athletic Performance Dashboard
+![Athletic Performance Dashboard](docs/screenshots/dashboard.jpg)
+*Live calorie breakdown, BMI gauge, today's workout spotlight, and hydration tracker.*
 
