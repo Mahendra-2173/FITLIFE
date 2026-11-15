@@ -1,9 +1,11 @@
 # FITLIFE AI — Smart Fridge-to-Recipe & Fitness App
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-fitlife--2yuy.onrender.com-brightgreen?style=for-the-badge&logo=render)](https://fitlife-2yuy.onrender.com/)
+[![Video Demo](https://img.shields.io/badge/Video%20Demo-Google%20Drive-blue?style=for-the-badge&logo=google-drive)](https://drive.google.com/file/d/1JmdHlygrw6k2R0IjNBvaud9xWtkR7Q13/view?usp=drive_link)
 [![GitHub repo](https://img.shields.io/badge/GitHub-Mahendra--2173%2FFITLIFE-red?style=for-the-badge&logo=github)](https://github.com/Mahendra-2173/FITLIFE)
 
 > 🚀 **Live Demo URL:** [https://fitlife-2yuy.onrender.com/](https://fitlife-2yuy.onrender.com/)  
+> 🎥 **Video Demo Walkthrough:** [Watch on Google Drive](https://drive.google.com/file/d/1JmdHlygrw6k2R0IjNBvaud9xWtkR7Q13/view?usp=drive_link)  
 > **Personalized AI Nutrition & Athletic Performance Suite**  
 > **Main Project:** Fridge-to-Recipe Generator (with Integrated Fitness & Health Tools)
 
@@ -149,7 +151,16 @@ We made sure the user never gets stuck with a broken or blank screen:
 
 ---
 
-## 9. Application Screenshots
+## 9. 🎥 Video Demo Walkthrough
+
+[![Watch the Video Demo](docs/screenshots/recipe-generator.jpg)](https://drive.google.com/file/d/1JmdHlygrw6k2R0IjNBvaud9xWtkR7Q13/view?usp=drive_link)
+
+▶️ **[Click here to watch the full video walkthrough on Google Drive](https://drive.google.com/file/d/1JmdHlygrw6k2R0IjNBvaud9xWtkR7Q13/view?usp=drive_link)**  
+*(Demonstrating ingredient selection, real-time AI recipe generation, dynamic serving scalers (1x, 2x, 4x), preparation checkboxes, and interactive step countdown timers).*
+
+---
+
+## 10. Application Screenshots
 
 ### 🍳 Fridge-to-Recipe Studio
 ![Fridge-to-Recipe Studio](docs/screenshots/recipe-generator.jpg)
